@@ -1,56 +1,50 @@
-import { Component } from 'react';
+import { useState } from 'react';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import { Searchbar } from './Searcbar/Searchbar';
 import { Modal } from './Modal/Modal';
 import styled from 'styled-components';
 
-export class App extends Component {
-  state = {
-    articles: [], 
-    searchQuery: '',
-    modalURL: '',
-    modalIsVisible: false,
+export const App = () => {
+  const [articles, setArticles] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [modalURL, setModalURL] = useState('');
+  const [modalIsVisible, setModalIsVisible] = useState(false);
+
+  const handlerStateChange = articles => {
+   setArticles(articles );
+  };
+  const searchInputHandler = inputValue => {
+    setSearchQuery(inputValue);
   };
 
-  handlerStateChange = articles => {
-    this.setState({ articles });
-  };
-  searchInputHandler = inputValue => {
-    this.setState({ searchQuery: inputValue });
+  const modalWindowHandler = image => {
+   setModalIsVisible(modalIsVisible => !modalIsVisible)
+  setModalURL(image.largeImageURL)
   };
 
-  modalWindowHandler = image => {
-    this.setState(prevState => {
-      return { modalIsVisible: !prevState.modalIsVisible };
-    });
-    this.setState({
-      modalURL: image.largeImageURL,
-    });
-  };
-
-  render() {
-    
-    return (
+ return (
       <Container>
-        {this.state.modalIsVisible&&<Modal
-            modalURL={this.state.modalURL}
-            modalWindowHandler={this.modalWindowHandler}
+        {modalIsVisible&&<Modal
+            modalURL={modalURL}
+            modalWindowHandler={modalWindowHandler}
           >
-            <img src={this.state.modalURL} alt="" />
+            <img src={modalURL} alt="" />
           </Modal>}
-        <Searchbar searchInputHandler={this.searchInputHandler} />
+        <Searchbar searchInputHandler={searchInputHandler} />
         <ImageGallery
-          articles={this.state.articles}
-          searchQuery={this.state.searchQuery}
-          modalWindowHandler={this.modalWindowHandler}
-          handlerStateChange={this.handlerStateChange}
+          articles={articles}
+          searchQuery={searchQuery}
+          modalWindowHandler={modalWindowHandler}
+          handlerStateChange={handlerStateChange}
         />
 
         {/* <Loader></Loader> */}
       </Container>
     );
-  }
 }
+
+
+
 
 const Container  = styled.div`
   display: flex;
