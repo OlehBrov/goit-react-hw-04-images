@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { FetchUrl } from 'components/Fetch/FetchURL';
 import { GalleryItem } from '../GalleryItem/GalleryItem';
 import { IdleView } from 'components/Views/IdleView';
@@ -15,31 +15,21 @@ const STATUS = {
 };
 
 export const ImageGallery = props => {
-  console.log('🚀 ~ file: ImageGallery.jsx:18 ~ ImageGallery ~ props:', props);
-
   const [articles, setArticles] = useState(props.articles);
   const [status, setStatus] = useState(STATUS.IDLE);
   const [articlesPage, setArticlesPage] = useState(1);
-  const [totalHits, setTotalHits] = useState(0);
   const [error, setError] = useState('');
   const [isLoadMoreEnabled, setIsLoadMoreEnabled] = useState(false);
-  // const [itemsPerPage, setItemsPerPage] = useState(40);
-  const [onFirstLoad, setOnFirstLoad] = useState(true);
   const [searchQuery, setSearchQuery] = useState(props.searchQuery);
-  console.log(
-    '🚀 ~ file: ImageGallery.jsx:29 ~ ImageGallery ~ searchQuery:',
-    searchQuery
-  );
 
   useEffect(() => {
     if (props.searchQuery !== '') {
       setSearchQuery(props.searchQuery);
       newSearchInit();
-      console.log('searchQuery inside IF UseEff', searchQuery);
     }
   }, [props.searchQuery]);
 
-  const newSearchInit = () => {
+  const newSearchInit = useCallback(() => {
     setStatus(STATUS.PENDING);
     if (props.searchQuery.trim() !== '') {
       FetchUrl(props.searchQuery, articlesPage)
@@ -49,18 +39,11 @@ export const ImageGallery = props => {
           } else setArticles(data.data.hits);
           setStatus(STATUS.RESOLVED);
           setArticlesPage(2);
-          setTotalHits(data.data.totalHits);
-          console.log('data.data.totalHits', data.data.totalHits);
-        console.log(
-          '[...articles, ...data.data.hits].length',
-          [...articles, ...data.data.hits].length
-        );
           setIsLoadMoreEnabled(
-          // data.data.totalHits % [...articles, ...data.data.hits].length === 0 &&
-          data.data.totalHits === [...articles, ...data.data.hits].length
-            ? false
-            : true
-        );
+            data.data.totalHits === [...articles, ...data.data.hits].length
+              ? false
+              : true
+          );
         })
         .catch(error => {
           setStatus(STATUS.REJECTED);
@@ -70,12 +53,11 @@ export const ImageGallery = props => {
       alert('Invalid search query');
       setStatus(STATUS.IDLE);
     }
-  };
+  }, [articles, articlesPage, props.searchQuery]);
 
   const handleLoadMoreButton = e => {
     setArticlesPage(articlesPage + 1);
-    console.log('articlesPage', articlesPage);
-    console.log('articles in loadmoreBTN', articles);
+
     FetchUrl(searchQuery, articlesPage)
       .then(data => {
         if (data.data.total === 0) {
@@ -83,14 +65,8 @@ export const ImageGallery = props => {
         }
         setArticles([...articles, ...data.data.hits]);
         setStatus(STATUS.RESOLVED);
-        console.log('data.data.totalHits', data.data.totalHits);
-        console.log(
-          '[...articles, ...data.data.hits].length',
-          [...articles, ...data.data.hits].length
-        );
 
         setIsLoadMoreEnabled(
-          // data.data.totalHits % [...articles, ...data.data.hits].length === 0 &&
           data.data.totalHits === [...articles, ...data.data.hits].length
             ? false
             : true

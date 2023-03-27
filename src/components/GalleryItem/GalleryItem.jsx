@@ -26,7 +26,7 @@ const GalleryList = styled.ul`
   padding: 0;
 `;
 const ListItemStyled = styled.li`
-  width: calc((100% - 45px) / 4);
+  width: calc((100% - 105px) / 8);
 `;
 const ImageStyled = styled.img`
   display: block;

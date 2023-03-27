@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { ProgressBar } from 'react-loader-spinner'
+import { ProgressBar } from 'react-loader-spinner';
 
 export const PendingView = () => {
   return (
@@ -19,6 +19,4 @@ export const PendingView = () => {
   );
 };
 
-const Spinner = styled.div`
-
-`;
+const Spinner = styled.div``;

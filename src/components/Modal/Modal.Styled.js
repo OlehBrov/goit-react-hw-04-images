@@ -1,8 +1,5 @@
 import styled from 'styled-components';
 
-// export const modalStyled = styled.div`
-
-// `;
 
 export const ModalWindow = styled.div`
   position: fixed;
@@ -15,17 +12,16 @@ export const ModalWindow = styled.div`
   align-items: center;
   top: 0vh;
   left: 0vw;
-  /* bottom: 0;
-  right: 0; */
+
   margin: 0 auto;
   z-index: 999;
-  /* opacity: 0; */
+
   pointer-events: none;
   transition: all 0.3s;
   & > div {
     position: relative;
     display: flex;
-    /* transform: translate(50%, 50%); */
+
     max-width: calc(100vw - 48px);
     max-height: calc(100vh - 24px);
     background-color: beige;
