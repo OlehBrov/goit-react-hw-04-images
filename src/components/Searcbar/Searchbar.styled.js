@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-// import { Searchbar } from "./Searchbar";
 import { Field } from 'formik';
 
 export const SearchbarStyled = styled.div`
@@ -10,12 +9,6 @@ export const SearchbarStyled = styled.div`
   justify-content: center;
   align-items: center;
   background: #13274F;
-  /* background: linear-gradient(
-    0deg,
-    rgba(30, 21, 180, 1) 0%,
-    rgba(78, 87, 116, 1) 50%,
-    rgba(30, 21, 180, 1) 100%
-  ); */
   border-bottom: 4px solid black;
 `;
 
