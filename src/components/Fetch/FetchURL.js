@@ -3,6 +3,7 @@ const API_KEY = '33350252-53a75f568ce69e642e03bf7bf';
 const BASE_URL = 'https://pixabay.com/api'
 
 export const FetchUrl = (searchQuery, page) => {
+  console.log("🚀 ~ file: FetchURL.js:6 ~ FetchUrl ~ searchQuery:", searchQuery)
   const q = searchQuery.trim().split(" ").join("+")
  return axios
         .get(`${BASE_URL}/?key=${API_KEY}&q=${q}`, {

@@ -1,16 +1,16 @@
 import styled from 'styled-components';
 
-export const GalleryItem = (props) => {
-  
+export const GalleryItem = ({articles, fullViewHandle}) => {
+  console.log('Articles in item props', articles)
   return (
       <GalleryList>
-        {props.articles.map(galleryItem => (
+        {articles.map(galleryItem => (
           <ListItemStyled key={galleryItem.id}>
             {' '}
             <ImageStyled
               src={galleryItem.previewURL}
               alt={galleryItem.tags}
-              onClick={e => props.fullViewHandle(e, galleryItem.id)}
+              onClick={e => fullViewHandle(e, galleryItem.id)}
             />
           </ListItemStyled>
         ))}
