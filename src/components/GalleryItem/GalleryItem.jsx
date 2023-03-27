@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
 export const GalleryItem = ({articles, fullViewHandle}) => {
-  console.log('Articles in item props', articles)
   return (
       <GalleryList>
         {articles.map(galleryItem => (
