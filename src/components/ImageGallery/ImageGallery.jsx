@@ -21,7 +21,6 @@ export const ImageGallery = props => {
   const [error, setError] = useState('');
   const [isLoadMoreEnabled, setIsLoadMoreEnabled] = useState(false);
   const [searchQuery, setSearchQuery] = useState(props.searchQuery);
-  const [firstPage, setFirstPage] = useState(1);
 
   useEffect(() => {
     if (props.searchQuery !== '') {
@@ -34,7 +33,7 @@ export const ImageGallery = props => {
   const newSearchInit = useCallback(() => {
     setStatus(STATUS.PENDING);
     if (props.searchQuery.trim() !== '') {
-      FetchUrl(props.searchQuery, firstPage)
+      FetchUrl(props.searchQuery, articlesPage)
         .then(data => {
           if (data.data.total === 0 || data.data.hits.length === 0) {
             return Promise.reject('No pictures available on your request ((');
@@ -55,7 +54,7 @@ export const ImageGallery = props => {
       alert('Invalid search query');
       setStatus(STATUS.IDLE);
     }
-  }, [articles, firstPage, props.searchQuery]);
+  }, [articles, articlesPage, props.searchQuery]);
 
   const handleLoadMoreButton = e => {
     setArticlesPage(articlesPage + 1);
